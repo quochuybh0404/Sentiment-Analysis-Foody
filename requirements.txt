@@ -9,3 +9,5 @@ wordcloud
 underthesea
 imblearn
 nltk
+demoji
+pyvi
