@@ -485,4 +485,3 @@ if choice == 'Dự đoán':
             st.text("Kết quả: " + label)
 
 
-    
