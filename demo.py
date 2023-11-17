@@ -28,8 +28,7 @@ from sklearn.svm import SVC, LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import AdaBoostClassifier
-from xgboost import XGBClassifier
+
 
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import time
