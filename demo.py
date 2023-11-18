@@ -32,8 +32,8 @@ from sklearn.neighbors import KNeighborsClassifier
 
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import time
-import math
-import datetime
+
+import joblib
 import streamlit  as st
 
 
@@ -280,7 +280,8 @@ def replace_word(text):
                     'quay lại': 'trở lại', 'ghé lại': 'trở lại', 'thắc đắt': 'thắc mắc', ' củg ': ' củng ', ' take care ' : ' chăm sóc ',
                     'rất là': 'rất', 'quá là': 'quá', ' ròn ' : ' giòn ', 'welcome': 'chào đón', 'tiet kiem': 'tiết kiệm', ' siêu ': ' rất ',
                     ' cốc ': ' ly ', 'tí hon': 'nhỏ', ' kute ': ' dễ thương ', ' cute ': ' dễ thương ', ' best ': ' tuyệt vời ', 'very bad' : 'rất tệ',
-                    'come back': 'trở lại', 'sang chảnh': 'sang trọng',
+                    'come back': 'trở lại', 'sang chảnh': 'sang trọng', 'không quá': 'bình thường', 'rất chất lượng': 'rất ngon', 'quá chất lượng': 'quá ngon',
+
                     }
     
     for word, rep_word in replace_list.items():
@@ -423,34 +424,19 @@ def remove_stopword(text, stopwords):
     return document
 
 
-from imblearn.pipeline import Pipeline
 df_new = pd.read_csv("Labeled_Foody_Review_from_model.csv")
 df_new = df_new.dropna()
 
-# Tạo lại train test split từ datafame mới là df_new
 X_train, X_test, Y_train, Y_test = train_test_split(df_new['processed_comments'], df_new['review_class_num'], test_size=0.2)
 
-vectorizer_params = dict(ngram_range=(1, 2), min_df=5, max_df=0.85)
-# logistic_params = dict(multi_class='multinomial', C=1, solver='saga', penalty='l1')
-logistic_params = dict(multi_class='multinomial', C=1, solver='saga', penalty='l2')
-# svd = TruncatedSVD(n_components=n_components)
-pipeline = Pipeline(
-    [
-        ("vect", CountVectorizer(**vectorizer_params)),
-        ("tfidf", TfidfTransformer()),
-        ('oversampler', SMOTE()),
-        ("clf", LogisticRegression(**logistic_params))
-    ]
-)
-
-
-
+model = joblib.load('model.joblib')
+Y_pred = model.predict(X_test)
 
 ### Show kết quả lên Streamlit
-menu = ["Dự đoán"]
+menu = ["Giới thiệu", "Hình ảnh", "Dự đoán"]
 choice = st.sidebar.selectbox('Menu', menu)
 
-if choice == 'Dự đoán':
+if choice == 'Giới thiệu':
     st.subheader("Giới thiệu")
     
     st.text("Các bình luận Foody")
@@ -458,7 +444,25 @@ if choice == 'Dự đoán':
         Hệ thống hỗ trợ nhà hàng phân loại các phản hồi của khách hàng thành 3 nhóm: tích cực, tiêu cực và trung lập. Dựa trên dữ liệu dạng văn bản.
         Xây dựng hệ thống dựa trên lịch sử những đánh giá của các khách hàng đã có trước đó, dữ liệu được thu thập từ phần bình luận và đánh giá của khách hàng ở trang Foody…
 """)
-    model = pipeline.fit(X_train, Y_train)
+
+elif choice == 'Hình ảnh':
+    # In classification report
+    st.subheader('Classification Report')
+    report = classification_report(Y_test, Y_pred)
+    st.text(report)
+
+    # Tạo confusion matrix
+    classes = np.unique(Y_test)
+    cm = confusion_matrix(Y_test, Y_pred)
+
+    # Hiển thị confusion matrix trong Streamlit
+    st.subheader('Confusion Matrix')
+    fig, ax = plt.subplots()
+    heatmap = sb.heatmap(cm, annot=True, fmt='d', ax=ax, cmap=plt.cm.Blues, cbar=False)
+    heatmap.set(xlabel="Predicted", ylabel="True", xticklabels=classes, yticklabels=classes, title="Confusion matrix")
+    plt.yticks(rotation=0)
+    st.pyplot(fig)
+else:
     with st.form("my_form"):
         st.write('#### Nhập bình luận của bạn')
         comment = st.text_input("Nhập bình luận: ")
@@ -474,6 +478,7 @@ if choice == 'Dự đoán':
             document = process_postag_thesea(document)
             # document
             document = remove_stopword(document,stopwords_lst)
+            
             yhat = model.predict([document])[0]
             if yhat== 0:
                 label = "bình luận tích cực"
@@ -482,5 +487,3 @@ if choice == 'Dự đoán':
             else:
                 label = "bình luận tiêu cực"
             st.text("Kết quả: " + label)
-
-
