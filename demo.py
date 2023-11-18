@@ -433,7 +433,7 @@ model = joblib.load('model.joblib')
 Y_pred = model.predict(X_test)
 
 ### Show kết quả lên Streamlit
-menu = ["Giới thiệu", "Hình ảnh", "Dự đoán"]
+menu = ["Giới thiệu", "Dự đoán"]
 choice = st.sidebar.selectbox('Menu', menu)
 
 if choice == 'Giới thiệu':
@@ -444,26 +444,32 @@ if choice == 'Giới thiệu':
         Hệ thống hỗ trợ nhà hàng phân loại các phản hồi của khách hàng thành 3 nhóm: tích cực, tiêu cực và trung lập. Dựa trên dữ liệu dạng văn bản.
         Xây dựng hệ thống dựa trên lịch sử những đánh giá của các khách hàng đã có trước đó, dữ liệu được thu thập từ phần bình luận và đánh giá của khách hàng ở trang Foody…
 """)
+    
+    
 
-elif choice == 'Hình ảnh':
-    # In classification report
-    st.subheader('Classification Report')
-    report = classification_report(Y_test, Y_pred)
-    st.text(report)
+# elif choice == 'Hình ảnh':
+#     # In classification report
+#     st.subheader('Classification Report')
+#     report = classification_report(Y_test, Y_pred)
+#     st.text(report)
 
-    # Tạo confusion matrix
-    classes = np.unique(Y_test)
-    cm = confusion_matrix(Y_test, Y_pred)
+#     # Tạo confusion matrix
+#     classes = np.unique(Y_test)
+#     cm = confusion_matrix(Y_test, Y_pred)
 
-    # Hiển thị confusion matrix trong Streamlit
-    st.subheader('Confusion Matrix')
-    fig, ax = plt.subplots()
-    heatmap = sb.heatmap(cm, annot=True, fmt='d', ax=ax, cmap=plt.cm.Blues, cbar=False)
-    heatmap.set(xlabel="Predicted", ylabel="True", xticklabels=classes, yticklabels=classes, title="Confusion matrix")
-    plt.yticks(rotation=0)
-    st.pyplot(fig)
+#     # Hiển thị confusion matrix trong Streamlit
+#     st.subheader('Confusion Matrix')
+#     fig, ax = plt.subplots()
+#     heatmap = sb.heatmap(cm, annot=True, fmt='d', ax=ax, cmap=plt.cm.Blues, cbar=False)
+#     heatmap.set(xlabel="Predicted", ylabel="True", xticklabels=classes, yticklabels=classes, title="Confusion matrix")
+#     plt.yticks(rotation=0)
+#     st.pyplot(fig)
 else:
     with st.form("my_form"):
+        st.write("""
+       Mô hình hiện tại vẫn còn chưa thực sự hoàn thiện. Những bình luận của bạn sẽ là nguồn dữ liệu quý giá giúp cải thiện khả năng dự đoán.
+       Cảm ơn rất nhiều!!!
+""")
         st.write('#### Nhập bình luận của bạn')
         comment = st.text_input("Nhập bình luận: ")
         # review = st.selectbox("Bạn muốn: ", options = ["Bình luận tích cực", "Bình luận tiêu cực", "Bình luận trung lập"])
