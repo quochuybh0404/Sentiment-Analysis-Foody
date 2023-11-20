@@ -1,21 +1,16 @@
 # import toml
 import mysql.connector
+import streamlit  as st
 
 
 def connect_to_mysql():
 
-    [connections.mysql]
-    host = 'localhost'
-    username = 'root'
-    password = ''
-    database = 'Foody'
-
     conn = mysql.connector.connect(
         
-        host=st.secrets[connections.mysql][host],
-        user=st.secrets[connections.mysql][username],
-        password=st.secrets[connections.mysql][password],
-        database=st.secrets[connections.mysql][database]
+        host=st.secrets[database][host],
+        user=st.secrets[database][username],
+        password=st.secrets[database][password],
+        database=st.secrets[database][database]
     )
     return conn
 
