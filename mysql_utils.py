@@ -118,7 +118,7 @@ def connect_to_mysql():
 
     conn = mysql.connector.connect(
         host=host,
-        port = port
+        port=port,
         user=username,
         password=password,
         database=database
