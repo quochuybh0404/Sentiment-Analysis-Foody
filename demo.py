@@ -281,7 +281,7 @@ def replace_word(text):
                     'rất là': 'rất', 'quá là': 'quá', ' ròn ' : ' giòn ', 'welcome': 'chào đón', 'tiet kiem': 'tiết kiệm', ' siêu ': ' rất ',
                     ' cốc ': ' ly ', 'tí hon': 'nhỏ', ' kute ': ' dễ thương ', ' cute ': ' dễ thương ', ' best ': ' tuyệt vời ', 'very bad' : 'rất tệ',
                     'come back': 'trở lại', 'sang chảnh': 'sang trọng', 'không quá': 'bình thường', 'rất chất lượng': 'rất ngon', 'quá chất lượng': 'quá ngon',
-
+                    'nogn': 'ngon',
                     }
     
     for word, rep_word in replace_list.items():
@@ -423,7 +423,7 @@ def remove_stopword(text, stopwords):
     document = re.sub(r'\s+', ' ', document).strip()
     return document
 
-
+from mysql_utils import save_comment_to_db
 df_new = pd.read_csv("Labeled_Foody_Review_from_model.csv")
 df_new = df_new.dropna()
 
@@ -433,50 +433,30 @@ model = joblib.load('model.joblib')
 Y_pred = model.predict(X_test)
 
 ### Show kết quả lên Streamlit
-menu = ["Giới thiệu", "Dự đoán"]
+menu = ["Giới thiệu"]
 choice = st.sidebar.selectbox('Menu', menu)
 
-if choice == 'Giới thiệu':
-    st.subheader("Giới thiệu")
-    
-    st.text("Các bình luận Foody")
+
+st.subheader("Giới thiệu")
+st.write("""
+    Hệ thống hỗ trợ nhà hàng phân loại các phản hồi của khách hàng thành 3 nhóm: tích cực, tiêu cực và trung lập. Dựa trên dữ liệu dạng văn bản.
+    Xây dựng hệ thống dựa trên lịch sử những đánh giá của các khách hàng đã có trước đó, dữ liệu được thu thập từ phần bình luận và đánh giá của khách hàng ở trang Foody…
+""")
+
+
+with st.form("my_form"):
     st.write("""
-        Hệ thống hỗ trợ nhà hàng phân loại các phản hồi của khách hàng thành 3 nhóm: tích cực, tiêu cực và trung lập. Dựa trên dữ liệu dạng văn bản.
-        Xây dựng hệ thống dựa trên lịch sử những đánh giá của các khách hàng đã có trước đó, dữ liệu được thu thập từ phần bình luận và đánh giá của khách hàng ở trang Foody…
+    Mô hình hiện tại vẫn còn chưa thực sự hoàn thiện. Những bình luận của bạn sẽ là nguồn dữ liệu quý giá giúp cải thiện khả năng dự đoán.
+    Cảm ơn rất nhiều!!!
 """)
-    
-    
+    st.write('#### Nhập bình luận của bạn')
+    comment = st.text_input("Nhập bình luận: ")
+    # review = st.selectbox("Bạn muốn: ", options = ["Bình luận tích cực", "Bình luận trung lập", "Bình luận tiêu cực"])
+    submit = st.form_submit_button(label='Submit')
 
-# elif choice == 'Hình ảnh':
-#     # In classification report
-#     st.subheader('Classification Report')
-#     report = classification_report(Y_test, Y_pred)
-#     st.text(report)
-
-#     # Tạo confusion matrix
-#     classes = np.unique(Y_test)
-#     cm = confusion_matrix(Y_test, Y_pred)
-
-#     # Hiển thị confusion matrix trong Streamlit
-#     st.subheader('Confusion Matrix')
-#     fig, ax = plt.subplots()
-#     heatmap = sb.heatmap(cm, annot=True, fmt='d', ax=ax, cmap=plt.cm.Blues, cbar=False)
-#     heatmap.set(xlabel="Predicted", ylabel="True", xticklabels=classes, yticklabels=classes, title="Confusion matrix")
-#     plt.yticks(rotation=0)
-#     st.pyplot(fig)
-else:
-    with st.form("my_form"):
-        st.write("""
-       Mô hình hiện tại vẫn còn chưa thực sự hoàn thiện. Những bình luận của bạn sẽ là nguồn dữ liệu quý giá giúp cải thiện khả năng dự đoán.
-       Cảm ơn rất nhiều!!!
-""")
-        st.write('#### Nhập bình luận của bạn')
-        comment = st.text_input("Nhập bình luận: ")
-        # review = st.selectbox("Bạn muốn: ", options = ["Bình luận tích cực", "Bình luận tiêu cực", "Bình luận trung lập"])
-        submit = st.form_submit_button(label='Submit')
-
-        if submit:  # Xử lý khi nhấn nút "Submit"
-            # Thực hiện xử lý khi nhấn "Submit"
+    if submit:  # Xử lý khi nhấn nút "Submit"
+        # Thực hiện xử lý khi nhấn "Submit"
+        if comment:
             text = comment
             document = replace_word(text)
             document = process_text(document, emoji_dict, teen_dict, wrong_lst)
@@ -493,3 +473,14 @@ else:
             else:
                 label = "bình luận tiêu cực"
             st.text("Kết quả: " + label)
+            save_comment_to_db(comment)
+            # review = st.selectbox("Bạn muốn: ", options = ["Bình luận tích cực", "Bình luận trung lập", "Bình luận tiêu cực"])
+
+        else:
+            st.error("Vui lòng nhập bình luận để có thể dự đoán")
+
+
+
+                
+       
+                
