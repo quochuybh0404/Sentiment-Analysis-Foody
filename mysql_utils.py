@@ -110,7 +110,7 @@ def load_db_config():
 
 def connect_to_mysql():
     db_config = load_db_config()
-    host = db_config.get('host', 'db')
+    host = db_config.get('host', 'localhost')
     port = db_config.get('port', 3306)
     username = db_config.get('username', 'root')
     password = db_config.get('password', '')
