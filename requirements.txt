@@ -11,6 +11,6 @@ imblearn
 nltk
 demoji
 pyvi
-mysql-connector-python==8.2.0
+mysql-connector-python
 mysqlclient
 SQLAlchemy
