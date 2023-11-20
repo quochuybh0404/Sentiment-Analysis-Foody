@@ -10,7 +10,7 @@ underthesea==6.8.0
 imblearn==0.0
 nltk==3.8.1
 demoji==1.1.0
-pyvi==pyvi 0.1.1
+pyvi==0.1.1
 mysql-connector-python==8.2.0
 mysqlclient==2.2.0
 sqlalchemy==2.0.23
