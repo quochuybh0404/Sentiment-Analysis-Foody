@@ -10,7 +10,7 @@ def connect_to_mysql():
         host=st.secrets["host"],
         user=st.secrets["username"],
         password=st.secrets["password"],
-        database=st.secrets["database"]
+        database=st.secrets["database_name"]
     )
     return conn
 
