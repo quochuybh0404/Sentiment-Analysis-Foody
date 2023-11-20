@@ -12,3 +12,4 @@ nltk==3.8.1
 demoji==1.1.0
 pyvi==0.1.1
 mysql-connector-python==8.2.0
+SQLAlchemy
