@@ -113,7 +113,7 @@ def connect_to_mysql():
     host = db_config.get('host', 'db')
     port = db_config.get('port', 3306)
     username = db_config.get('username', 'root')
-    password = db_config.get('password', 'root')
+    password = db_config.get('password', '')
     database = db_config.get('database_name', 'Foody')
 
     conn = mysql.connector.connect(
