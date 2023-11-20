@@ -110,9 +110,10 @@ def load_db_config():
 
 def connect_to_mysql():
     db_config = load_db_config()
-    host = db_config.get('host', 'localhost')
+    host = db_config.get('host', 'db')
+    port = db_config.get('port', '3306')
     username = db_config.get('username', 'root')
-    password = db_config.get('password', '')
+    password = db_config.get('password', 'root')
     database = db_config.get('database_name', 'Foody')
 
     conn = mysql.connector.connect(
