@@ -7,10 +7,10 @@ def connect_to_mysql():
 
     conn = mysql.connector.connect(
         
-        host=st.secrets[database][host],
-        user=st.secrets[database][username],
-        password=st.secrets[database][password],
-        database=st.secrets[database][database]
+        host=st.secrets[host],
+        user=st.secrets[username],
+        password=st.secrets[password],
+        database=st.secrets[database]
     )
     return conn
 
