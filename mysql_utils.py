@@ -1,10 +1,18 @@
+import toml
 import mysql.connector
 
+
+def load_db_config():
+    with open('secrets.toml', 'r') as file:
+        config = toml.load(file)
+    return config.get('database', {})
+
 def connect_to_mysql():
-    host = 'localhost'
-    username = 'root'
-    password = ''
-    database = 'Foody'
+    db_config = load_db_config()
+    host = db_config.get('host', 'localhost')
+    username = db_config.get('username', 'root')
+    password = db_config.get('password', '')
+    database = db_config.get('database_name', 'Foody')
 
     conn = mysql.connector.connect(
         
