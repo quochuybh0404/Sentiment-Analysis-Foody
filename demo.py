@@ -423,7 +423,7 @@ def remove_stopword(text, stopwords):
     document = re.sub(r'\s+', ' ', document).strip()
     return document
 
-from mysql_utils import save_comment_to_db
+from sql_utils import save_to_database
 df_new = pd.read_csv("Labeled_Foody_Review_from_model.csv")
 df_new = df_new.dropna()
 
@@ -473,7 +473,7 @@ with st.form("my_form"):
             else:
                 label = "bình luận tiêu cực"
             st.text("Kết quả: " + label)
-            save_comment_to_db(comment)
+            save_to_database(comment)
             # review = st.selectbox("Bạn muốn: ", options = ["Bình luận tích cực", "Bình luận trung lập", "Bình luận tiêu cực"])
 
         else:
