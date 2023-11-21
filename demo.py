@@ -439,7 +439,7 @@ choice = st.sidebar.selectbox('Menu', menu)
 
 st.subheader("Giới thiệu")
 st.write("""
-    Hệ thống hỗ trợ nhà hàng phân loại các phản hồi của khách hàng thành 3 nhóm: tích cực, tiêu cực và trung lập. Dựa trên dữ liệu dạng văn bản.
+    Hệ thống phân loại các phản hồi của khách hàng thành 3 nhóm: tích cực, tiêu cực và trung lập. Dựa trên dữ liệu dạng văn bản.
     Xây dựng hệ thống dựa trên lịch sử những đánh giá của các khách hàng đã có trước đó, dữ liệu được thu thập từ phần bình luận và đánh giá của khách hàng ở trang Foody…
 """)
 
