@@ -64,6 +64,7 @@ def replace_word(text):
     text = text.replace(' k hề ',' không hề ')
     text = text.replace('đưpj','đẹp')
     text = text.replace('rẻe','rẻ')
+    text = text.replace(' siu ',' siêu ')
     text = text.replace(' ưg ',' ưng ')
     text = text.replace(' bôg ',' bông ')
     text = text.replace(' uốg ',' uống ')
@@ -281,7 +282,11 @@ def replace_word(text):
                     'rất là': 'rất', 'quá là': 'quá', ' ròn ' : ' giòn ', 'welcome': 'chào đón', 'tiet kiem': 'tiết kiệm', ' siêu ': ' rất ',
                     ' cốc ': ' ly ', 'tí hon': 'nhỏ', ' kute ': ' dễ thương ', ' cute ': ' dễ thương ', ' best ': ' tuyệt vời ', 'very bad' : 'rất tệ',
                     'come back': 'trở lại', 'sang chảnh': 'sang trọng', 'không quá': 'bình thường', 'rất chất lượng': 'rất ngon', 'quá chất lượng': 'quá ngon',
-                    'nogn': 'ngon',
+                    'nogn': 'ngon', 'thạm tệ': 'thậm tệ', 'công túa': 'công chúa', 'không bị': 'không', 'không được': 'không', 'service': 'phục vụ', 'xức xắc': 'xuất sắc',
+                    'super': 'rất', 'không thấy chán': 'không chán', 'không thấy ngon': 'không ngon', 'không thấy no': 'không no', 'không thấy ngán': 'không ngán',
+                    'ngon cực kì': 'rất ngon', 'cực kì ngon': 'rất ngon', 'siêu ngon': 'rất ngon', 'cực dở': 'rất dở', 'siêu dở': 'rất dở', 'dở cực kì': 'rất dở',
+                    'siêu chán': 'rất chán', 'cực chán': 'rất chán', 'ngon cực': 'rất ngon', 'cực kì tệ': 'rất tệ', 'cực tệ': 'rất tệ', 'cực ngon': 'rất ngon',
+                    'không bao giờ': 'không', 'thiếu chuyên nghiệp': 'không chuyên nghiệp',
                     }
     
     for word, rep_word in replace_list.items():
